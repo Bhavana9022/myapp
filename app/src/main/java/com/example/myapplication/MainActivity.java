@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
+import android.widget.ListView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -36,7 +37,7 @@ import java.net.MalformedURLException;
 
 public class MainActivity extends AppCompatActivity {
     FlickrImage[] myFlickrImage;
-
+    ListView listview;
     EditText searchText;
     Button searchButton;
     Gallery photoBar;
@@ -57,10 +58,11 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        // set a LinearLayoutManager with default orientation
+        /*// set a LinearLayoutManager with default orientation
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(linearLayoutManager); // set LayoutManager to RecyclerView
+        recyclerView.setLayoutManager(linearLayoutManager); */
+
+        listview = (ListView)findViewById(R.id.listview);
 
         searchText = (EditText)findViewById(R.id.searchtext);
         searchText.setText(DEFAULT_SEARCH);
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("JSON DATA: "+searchResult);
                     myFlickrImage = ParseJSON(searchResult);
                     photoBar.setAdapter(new FlickrAdapter(MainActivity.this, myFlickrImage));
+
+                    listview.setAdapter(new FlickrAdapter(MainActivity.this,myFlickrImage));
                 }
             });
         }};
@@ -115,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 while ((stringReadLine = bufferedreader.readLine()) != null) {
                     stringBuilder.append(stringReadLine + "n");
                 }
-
                 qResult = stringBuilder.toString();
                 inputStream.close();
             }
@@ -156,15 +159,13 @@ public class MainActivity extends AppCompatActivity {
                 flickrServer = FlickrPhoto.getString("server");
                 flickrFarm = FlickrPhoto.getString("farm");
                 flickrTitle = FlickrPhoto.getString("title");
-                flickrImage[i] = new FlickrImage(flickrId, flickrOwner, flickrSecret,
-                        flickrServer, flickrFarm, flickrTitle);
+                flickrImage[i] = new FlickrImage(flickrId, flickrOwner, flickrSecret,flickrServer, flickrFarm, flickrTitle);
             }
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         return flickrImage;
     }
 

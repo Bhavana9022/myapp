@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
-
+    
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -36,10 +35,14 @@
         android:layout_height="100dp"
         android:spacing="10dp"  />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <ListView
+        android:id="@+id/listview"
+        android:layout_gravity="center"
+        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:divider = "#000"
+        android:dividerHeight = "1dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+       >
+    </ListView>
 </LinearLayout>
